@@ -1,12 +1,14 @@
 class Restaurant{
     string name;
-    Branch branch;
+    List<Branch> branch;
 
     public bool addBranch(Branch);
 }
 
 class Kitchen{
     string name;
+    List<Chef> chefs;
+
     public bool assignChef(Chef);
 }
 
@@ -89,7 +91,8 @@ class Reservation{
     List<Table> tables;
     List<Notification> notifications;
 
-    public bool updatePeopleCount();    
+    public bool updatePeopleCount();  
+    public bool updateReservation();  
 }
 
 enum SeatType { REGULAR, KID, OTHER }
@@ -110,6 +113,7 @@ class Table{
     List<TableSeat> seats;    
     
     public bool isTableFree();    
+    public bool addReservation();
 }
 
 
@@ -141,7 +145,7 @@ class MealItem{
     int quantity;
     MenuItem menuItem;
 
-    public bool updateQuantity();
+    public bool updateQuantity(int quantity);
 }
 
 class Menu{
