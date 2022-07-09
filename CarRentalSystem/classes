@@ -163,6 +163,13 @@ class Receptionist: public Account{
 }
 
 
+enum BillItemType { BASE_CHARGE, ADDITIONAL_SERVICE, PENALTY, OTHER}
+
+class BillItem{
+    double amount;
+    BillItemType billItemType;
+}
+
 class Invoice{
     Payment payment;
     List<BillItem> billItem;
