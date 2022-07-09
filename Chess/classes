@@ -1,0 +1,96 @@
+class Chess{
+    ChessBoard chessBoard;
+    Player[] player;
+    Player currentPlayer;
+    List<Move> movesList;
+    GameStatus gameStatus;
+
+    public Chess();
+    public bool playerMove(CellPosition from, CellPosition to);
+    public bool getGameStatus();   
+    private void changeTurn();
+}
+
+public class Player{
+    Account account;
+    Color color;
+    Timer timeLeft;
+
+}
+
+public class Account{
+    string username;
+    string password;
+    string name;
+    string email;
+    string phone;
+}
+
+enum Color { WHITE, BLACK }
+
+enum GameStatus { ACTIVE, PAUSED, FORFEIT, WHITE_WON, BLACK_WON }
+
+class ChessBoard{
+    List<List<Cell>> board;
+
+    public void resetBoard();
+    public void updateBoard(Move move);
+}
+
+class Cell{
+    Color color;
+    Piece piece;
+    CellPosition position;
+}
+
+class CellPosition{
+    int x;
+    int y;
+}
+
+class Move{
+    Player turn;
+    Piece piece;
+    Piece killedPiece;
+    CellPosition startPosition;
+    CellPosition endPosition;
+}
+
+class Piece{
+    Color color;
+
+    virtual public List<CellPosition> possibleMoves(CellPosition from);
+    virtual public bool move(CellPosition from, CellPosition to) = 0;    
+    virtual public bool validate(CellPosition from, CellPosition to) = 0;
+}
+
+class Rook: public Piece {
+    public List<CellPosition> possibleMoves(CellPosition from);
+    public bool move(CellPosition from, CellPosition to);    
+    public bool validate(CellPosition from, CellPosition to);
+}
+class Bishop: public Piece {
+    public List<CellPosition> possibleMoves(CellPosition from);
+    public bool move(CellPosition from, CellPosition to);    
+    public bool validate(CellPosition from, CellPosition to);
+}
+class Knight: public Piece {
+    public List<CellPosition> possibleMoves(CellPosition from);
+    public bool move(CellPosition from, CellPosition to);    
+    public bool validate(CellPosition from, CellPosition to);
+}
+class Queen: public Piece {
+    public List<CellPosition> possibleMoves(CellPosition from);
+    public bool move(CellPosition from, CellPosition to);    
+    public bool validate(CellPosition from, CellPosition to);
+}
+class King: public Piece {
+    public List<CellPosition> possibleMoves(CellPosition from);
+    public bool move(CellPosition from, CellPosition to);    
+    public bool validate(CellPosition from, CellPosition to);
+}
+class Pawn: public Piece {
+    public List<CellPosition> possibleMoves(CellPosition from);
+    public bool move(CellPosition from, CellPosition to);    
+    public bool validate(CellPosition from, CellPosition to);
+}
