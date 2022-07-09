@@ -144,7 +144,9 @@ class Account : public Search{
     AccountStatus status;
     Person person;
 
-    public resetPassword();    
+    public void resetPassword();    
+    public VehicleReservation bookVehicle(VehicleType);
+    public VehicleReservation bookVehicle(VehicleModel);
 }
 
 class Member : public Account{
