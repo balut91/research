@@ -1,0 +1,208 @@
+class Restaurant{
+    string name;
+    Branch branch;
+
+    public bool addBranch(Branch);
+}
+
+class Kitchen{
+    string name;
+    public bool assignChef(Chef);
+}
+
+class TableChart{
+    int tableChartId;
+    blob tableChartImage;
+
+    public bool print();
+}
+
+class Branch{
+    string name;
+    Address address;
+    Kitchen kitchen;
+
+    public bool addTableChart();
+}
+
+class Person{
+    string name;
+    string email;
+    string phone;
+}
+
+class Account{
+    int id;
+    string password;
+    Address address;
+    AccountStatus status;
+
+    public bool resetPassword();
+}
+
+
+class Employee : public Person{
+    int id;
+    DateTime dateJoined;
+    Account account;
+    Branch branch;
+}
+
+class ReservationsInfo{
+    public List<Reservation> getAllReservations();
+    public bool addReservation(Reservation);
+}
+
+class Manager: public Employee{
+    public bool addEmployee(Employee);
+}
+
+class Receptionist: public Employee, ReservationsInfo {
+    public bool createReservation();
+    public List<Customer> searchCustomer(string name);
+    public Reservation searchByReservationId(int id);
+}
+
+class Waiter: public Employee{
+    public bool CreateOrder();
+}
+
+class Chef: public Employee{
+    public bool takeOrder();
+}
+
+class Customer: public Person{
+    DateTime lastVisisted;
+}
+
+
+enum ReservationStatus { REQUESTED, PENDING, CONFIRMED, CHECKED_IN, CANCELED }
+
+class Reservation{
+    int reservationId;
+    DateTime timeOfReservation;
+    int peopleCount;
+    ReservationStatus status;
+    string notes;
+    DateTime checkinTime;
+    Customer customer;
+    List<Table> tables;
+    List<Notification> notifications;
+
+    public bool updatePeopleCount();    
+}
+
+enum SeatType { REGULAR, KID, OTHER }
+
+enum TableStatus { FREE, RESERVED, OCCUPIED, OTHER }
+
+class TableSeat{
+    int id;
+    SeatType type;
+
+    public bool updateSeatType(SeatType);
+}
+
+class Table{
+    int id;
+    TableStatus status;
+    int maxCapacity;
+    List<TableSeat> seats;    
+    
+    public bool isTableFree();    
+}
+
+
+
+class Order{
+    int id;
+    OrderStatus orderStatus;
+    Meal meal;
+    Waiter waiter;
+    Chef chef;
+    DateTime createdAt;
+    Bill bill;
+    Table table;
+
+    public bool addMeal(Meal);
+    public bool removeMeal(Meal);    
+}
+
+class Meal{
+    int id;    
+    List<MealItem> menuItems;
+
+    public bool addMealItem(MealItem);
+    public bool removeMealItem(MealItem);
+}
+
+class MealItem{
+    int id;
+    int quantity;
+    MenuItem menuItem;
+
+    public bool updateQuantity();
+}
+
+class Menu{
+    int id;
+    string title;
+    string description;
+    List<MenuSection> menuSection;
+
+    public bool addMenuSection(MenuSection);
+}
+
+enum MenuSectionType { VEG_STARTERS, NON_VEG_STARTERS, CHINESE, OTHER} 
+
+class MenuSection{
+    int menuSectionId;
+    MenuSectionType menuSectionType;
+    List<MenuItems> menuItems;
+
+    public bool addMenuItem(MenuItem);
+}
+
+class MenuItem{
+    int menuItemId;
+    string title;
+    string description;
+    double price;
+
+    public bool updatePrice(double);
+}
+
+class Bill{
+    int billId;
+    Order order;
+    double amount;
+    double tip;
+    double tax;
+    Payment payment;
+
+    public bool createBill();
+}
+
+
+enum TransactionType { CREDIT_CARD, DEBIT_CARD, UPI, OTHER }
+
+class Payment{
+    int id;
+    double totalAmount;
+    DateTime createdAt;
+    TransactionType transactionType;
+
+    public bool initiateTransaction();
+}
+
+
+enum NotificationType { PHONE, EMAIL }
+
+class Notification {
+    int id;
+    DateTime createdAt;
+    string content;
+    NotificationType notificationType;
+
+    public bool send();
+}
