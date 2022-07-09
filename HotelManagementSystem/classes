@@ -1,0 +1,210 @@
+
+class Address{
+    private string street;
+    private string city;
+    private string state;
+    private string zipcode;
+    private string country;
+}
+
+
+class SystemManager{
+    private List<Hotel> hotelsList;
+    
+    public getHotels(string city);
+    public getHotels(string city, RoomStyle roomStyle);
+}
+
+
+class Hotel{
+    private:
+        int id;
+        string name;    
+        HotelLocation hotelLocation;
+
+    public:
+        bool addLocation(HotelLocation hotelLocation);
+}
+
+class HotelLocation{
+    private:
+        string name;
+        Address address;
+        List<Room> rooms;
+
+    public:
+        List<Room> getRooms();
+}
+
+class Room{
+    private:
+        int roomId;
+        RoomStyle roomStyle;
+        RoomStatus status;
+        double price;
+        List<RoomKey> roomkey;
+        List<HouseKeepingLog> houseKeepingLogs;
+
+    public:
+        bool isRoomAvailable();
+        bool checkIn(Date time);
+        bool checkOut(Date time);
+}
+
+enum RoomStyle{
+    STANDARD, DELUXE, FAMILY_SUITE
+}
+
+enum RoomStatus{
+    AVAILABLE, RESERVED, NOT_AVAILABLE, OCCUPIED, SERVICE_IN_PROGRESS
+}
+
+class RoomKey{
+    private:
+        int keyId;        
+        DateTime issuedAt;
+        bool isActive; 
+        bool isMaster; // is it a master key?
+
+    public:
+        void assignRoom(Room room);
+}
+
+class HouseKeepingLog{
+    private:
+        string description;
+        Date startDate;
+        int duration;
+        HouseKeeper houseKeeper;
+    
+    public:
+        void addRoom(Room room);
+}
+
+
+class Person{
+    string name;
+    Account account;
+    string phone;
+}
+
+class Account{
+    string username;
+    string password;
+    AccountStatus accountStatus;
+}
+
+enum AccountStatus{
+    ACTIVE, CLOSED, BLOCKED
+}
+
+class HouseKeeper : public Person{
+    List<Room> getRoomServiced(Date date);
+}
+
+class Guest : public Person{
+    Search search;
+    Booking booking;
+
+    List<RoomBooking> getAllBookings();
+}
+
+class Receptionist : public Person{
+    Search search;
+    Booking booking;
+
+    void checkInGuest(Guest guest, RoomBooking bookingInfo);
+    void checkOutGuest(Guest guest, RoomBooking bookingInfo);
+}
+
+class Admin : public Person{
+    void addRoom(Room);
+    bool deleteRoom(Room);
+    void editRoom(Room);
+}
+
+class Search{
+    List<Room> searchRoom(RoomStyle roomStyle, Date start, Date end);
+}
+
+class Booking{
+    RoomBooking createBooking(Guest guestInfo);
+    RoomBooking cancelBooking(int bookingId);
+}
+
+class RoomBooking{
+    string bookingId;
+    Date startDate;
+    int durationDays;
+    BookingStatus bookingStatus;
+    List<Guest> guestList;
+    List<Room> rooms;
+    BaseRoomCharge totalRoomCharge;
+}
+
+/**
+    Decorator pattern is used to decorate the prices here
+ */
+
+ class BaseRoomCharge{
+    double getCost() = 0;
+ }
+
+ class RoomCharge : public BaseRoomCharge{
+    double cost;
+    double getCost(){
+        return cost;
+    }
+    void setCost(double cost){
+        this.cost = cost;
+    }
+ }
+
+ class RoomServiceCharge: public BaseRoomCharge{
+    double cost;
+    BaseRoomCharge baseRoomCharge;
+    double getCost(){
+        baseRoomCharge.setCost(baseRoomCharge.getCost() + cost);
+        return baseRoomCharge.getCost();
+    }
+ }
+
+ class InRoomPurchaseCharge: public BaseRoomCharge{
+    double cost;
+    BaseRoomCharge baseRoomCharge;
+    double getCost(){
+        baseRoomCharge.setCost(baseRoomCharge.getCost() + cost);
+        return baseRoomCharge.getCost();
+    }
+ }
+
+
+ class Invoice{
+    double amount;
+    PaymentType paymentType;
+    BillTransaction billTransaction;
+
+    bool createBill();
+ }
+
+ class BillTransaction{
+    Date creationDate;
+    double amount;
+    PaymentStatus status;
+
+    bool initiateTransaction();
+ }
+
+ class CreditCardTransaction : public BillTransaction{
+    string nameOnCard;
+    string numberOnCard;
+ }
+
+ class ChequeTransaction: public BillTransaction{
+    string bankName;
+    string chequeNumber;
+ }
+
+ class CashTransaction: public BillTransaction{
+    double cashReceived;
+ }
