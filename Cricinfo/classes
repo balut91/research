@@ -1,0 +1,191 @@
+class Address{
+    string street;
+    string city;
+    string state;
+    string country;
+    string zipcode;
+}
+
+class Person{
+    string name;
+    Address address;
+    string email;
+    string phone;
+}
+
+
+enum PlayerType { BATSMEN, BOWLER, ALL_ROUNDER, WICKET_KEEPER }
+
+class Player{
+    int id;
+    Person person;
+    PlayerType playerType;    
+    List<Ball> ballsPlayed;    
+    List<Wicket> wicketsTaken;
+    List<Over> overBowled;   
+        
+    public bool addWicket(Wicket wicket);
+    public bool addRuns(Ball);
+    public bool addOver(Over);
+}
+
+
+enum CoachType { MAIN_COACH, BATTING_COACH, BOWLING_COACH }
+
+class Coach{
+    Person person;
+    CoachType coachType;    
+    
+}
+
+class Contract{
+    int contractId;
+    DateTime startDate;
+    DateTime endDate;
+
+    bool cancelContract();
+}
+
+enum MatchType { ODI, TEST, T20I}
+
+enum MatchResult { LIVE, FINISHED, DRAWN, ABANDONED }
+
+class Match{
+    int id;
+    DateTime startTime;
+    MatchResult result;
+    MatchType matchType;
+    List<Player> players[2];
+    List<Umpire> umpires;
+    List<Inning> innings;
+    List<Commentators> commentators;
+    Stadium stadium;
+    Refree refree;
+    
+
+    public bool assignStadium(Stadium);
+}
+
+class Umpire{
+    Person person;
+    bool isThirdUmpire;
+
+    public bool assignMatch(Match);
+}
+
+class Inning{
+    int number;
+    DateTime startDate;
+    List<Over> overs;
+    int totalScore;
+
+    public bool addOver(Over over);
+    public int getScore();
+    public int getWickets();
+    public int getOversBowled();
+}
+
+class Over{
+    List<Ball> balls;
+    public bool addBall(Ball);
+}
+
+
+enum BallType { NORMAL, WIDE, WICKET, NOBALL}
+
+class Ball{
+    Player balledBy;
+    Player playedBy;
+    BallType type;
+    Run runs;
+    Commentary commentary;
+    Wicket wicket;
+
+    public bool addCommentary(Commentary);
+    public bool addRuns(Run);
+}
+
+enum RunType { NORMAL, FOUR, SIX, LEGBYE, BYE, WIDE, NOBALL, OVERTHROW }
+
+class Run{
+    int totalRuns;
+    RunType runType;
+}
+
+enum WicketType { BOWLED, CAUGHTOUT, STUMPED, OTHER }
+
+class Wicket{
+    WicketType wicketType;
+    Player playerOut;
+    Player caughtBy;
+    Player runOutBy;
+    Player stumpedBy; 
+}
+
+class Commentary{
+    string message;
+    List<Match> matches;
+
+    DateTime createdAt;
+}
+
+
+class Commentator{
+    Person person;
+    public bool assignMatch(Match);
+}
+
+
+class Stadium{
+    string name;
+    Address address;
+    List<Match> matches;
+    int maximumCapacity;
+}
+
+class Refree{
+    Person person;
+    List<Match> matches;
+
+    public bool assignMatch(Match);
+}
+
+
+
+
+
+class Admin{
+    Person person;
+
+    public bool addTeam(Team);
+    public bool addPlayer(Player);
+    public bool addMatch(Match);
+    public bool addTournament(Tournament);
+}
+
+
+
+class Team{
+    string name;
+    List<Player> players;
+    List<Coach> coaches;
+
+    public bool addTournamentSquad(TournamentSquad);
+    public bool addPlayer(Player);    
+}
+
+
+class TournamentSquad{
+    List<Player> player;
+
+    public bool addPlayer(Player);
+}
+
+
+class Tournament{
+    DateTime startDate;
+    TournamentSquad squad;
+    List<Match> matches;
+
+    public bool addTeam(Team);
+}
