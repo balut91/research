@@ -1,0 +1,186 @@
+
+
+class CarRentalSystem{
+    string name;
+    List<CarRentalLocation> rentalLocation;
+
+    public void addNewLocation(CarRentalLocation);
+}
+
+
+class Address{
+    string street;
+    string city;
+    string state;
+    string country;
+    string zipcode;
+}
+
+class CarRentalLocation{
+    string name;
+    Address address;
+    List<Vehicle> vehicles;
+
+    public Address getLocation();
+}
+
+class Search{
+    virtual public searchByType(string) = 0;
+    virtual public searchByModel(string) = 0;
+}
+
+class VehicleInteventory : public Search{
+    map<string, list<Vehicle>> vehicleType;
+    map<string, list<Vehicle>> vehicleModel;
+}
+
+class Barcode{
+    string barCode;
+    Date issuedAt;
+    bool active;
+
+    public bool isActive();
+}
+
+
+enum VehicleType{
+    CAR, SUV, TRUCK, MOTORCYCLE, VAN
+}
+
+/**
+    We can actually extend Vehicle class using Car, Truck classes
+    instead of using them as an enum
+ */
+
+class Vehicle{
+    string id;    
+    int passengerCapacity;
+    Barcode barCode;
+    VehicleStatus vehicleStatus;
+    string model;
+    List<VehicleLog> vehicleLog;
+    VehicleType vehicleType;       
+
+    bool reserveVehicle();
+    bool returnVehicle();
+    public list<VehicleLog> searchByLogType(VehicleLogType logType);
+}
+
+
+enum VehicleStatus{
+    AVAILABLE, RESERVED, LOANED, LOST, BEING_SERVICED, OTHER
+}
+
+class VehicleLog{
+    int logId;
+    VehicleLogType logType;
+    string description;
+    Date createdAt;    
+}
+
+enum VehicleLogType{
+    ACCIDENT, FULL_TANK, CLEANING_SERVICE, OIL_CHANGE, REPAIR, OTHER
+}
+
+
+class VehicleReservation{
+    string reservationNumber;
+    Date createdAt;
+    ReservationStatus status;
+    Date dueDate;
+    Date returnDate;
+    Address pickupLocation;
+    Address returnLocation;
+    Vehicle vehicle;
+    List<Service> service;
+    List<Equipment> equipment;
+    List<RentalInsurance> rentalInsurance;
+    Invoice invoice;
+
+    public VehicleReservation fetchDetails();
+}
+
+
+enum ServiceType { DRIVER, WIFI}
+
+class Service{
+    ServiceType serviceType;
+    string serviceId;
+
+    bool addService();
+    double getCost();
+}
+
+
+enum EquipmentType { Navigation, SkiRack }
+
+class Equipment{
+    string equipId;
+    EquipmentType equipmentType;
+    bool addEquipment();
+    double getCost();
+}
+
+enum InsuranceType { PersonalInsurance, OTHER}
+
+class RentalInsurance{
+    string insuranceId;
+    InsuranceType insuranceType;
+    bool addInsurance();
+    double getCost();
+}
+
+
+class Person{
+    string name;
+    Address address;
+    string email;
+    string phone;
+}
+
+class Account : public Search{
+    string id;
+    string password;
+    AccountStatus status;
+    Person person;
+
+    public resetPassword();    
+}
+
+class Member : public Account{
+    string driverLicenseNumber;
+    string driverlicenseExpiry;
+
+    List<VehicleReservations> getReservations();
+}
+
+class Receptionist: public Account{
+    Date dateJoined;
+
+    public bool searchMember();
+}
+
+
+class Invoice{
+    Payment payment;
+    List<BillItem> billItem;
+    double totalAmount;    
+
+    public double getTotalAmount();
+    public bool addBillItem(VehicleReservation reservation);    
+}
+
+enum TransactionType { CREDIT_CARD, DEBIT_CARD, UPI, CASH }
+
+enum PaymentStatus { UNPAID, PENDING, COMPLETED, DECLINED, CANCELED, SETTLING, REFUNDED}
+
+class Payment{
+    string paymentId;
+    TransactionType transactionType;
+    Date createdAt;
+    PaymentStatus status;
+    double amount;
+
+    public bool inititateTransaction();
+}
+
