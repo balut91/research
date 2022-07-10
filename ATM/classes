@@ -1,0 +1,133 @@
+class Bank{
+    string name;
+    string bankCode;
+    List<ATM> atm;
+    List<Account> accounts;
+
+    public string getBankCode();
+    public bool addATM();
+}
+
+
+class Address{
+    string street;
+    string city;
+    string state;
+    string country;
+    string zipcode;
+}
+
+class ATM{
+    int atmId;
+    Address address;
+    Keypad keypad;
+    Screen screen;
+    CardReader cardReader;
+    CashDispenser cashDispenser;
+    DepositSlot depositSlot;
+    List<Transaction> transactions;
+
+    public bool authenticateUser(Account);
+    public List<Transaction> getAllTransactions();
+    public bool initiateTransaction(Account);
+}
+
+class Keypad{
+    public void getInput(String);
+}
+
+class Screen{
+    public bool showMessage();    
+}
+
+class CardReader{
+    public bool readCard();
+}
+
+class CashDispenser{
+    int totalHunderedNotes;
+    int totalFiveHunderedNotes;
+    int totalTwoThousandNotes;
+
+    public int dispenseCash(int number);
+    public bool validate(int number);
+}
+
+
+classs DepositSlot{
+    public bool receiveAmount(int);
+}
+
+enum AccountType { SAVINGS_ACC, CURRENT_ACC, OTHER }
+
+class Account{
+    int accountNumber;    
+    Person person;
+    Date dob;
+    double availableBalance;
+    List<Transaction> transactions;
+    List<Card> cards;
+    AccountType accountType;
+    string IFSCcode;
+    CustomerStatus status;
+    int pin;
+
+    public double getAvailableBalance();
+    public Transaction makeTransaction();
+    public bool addTransaction();
+    public bool validatePin(int);
+
+}
+
+class Card{
+    int cardId;
+    int cvv;
+    Date dob;
+    Date cardExpiry;
+
+    virtual public int getCVV() = 0;
+    virtual public bool validateCvv() = 0;
+}
+
+class CreditCard: public Card{            
+    string name;
+}
+
+class DebitCard : public Card{            
+    string name;
+}
+
+
+class Transaction{
+    int transactionId;
+    ATM atm;
+    int accountId;
+    TransactionStatus transactionStatus;
+    Date createdAt;
+
+    public bool saveTransaction(int);
+}
+
+
+class BalanceInquiry: public Transaction{    
+    public double showAmount();    
+}
+
+class Withdrawl: public Transaction {
+    public double getAmount();
+}
+
+class Transfer: public Transaction{
+    Account destinationAcc;
+    Account sourceAcc;
+    double amount;
+}
+
+class Deposit: public Transaction{
+    public bool updateAmount(double);
+    public double getAmount();
+}
+
+
+
+
