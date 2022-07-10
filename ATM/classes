@@ -60,6 +60,8 @@ classs DepositSlot{
 
 enum AccountType { SAVINGS_ACC, CURRENT_ACC, OTHER }
 
+enum CustomerStatus { ACTIVE, BLOCKED, INACTIVE, OTHER }
+
 class Account{
     int accountNumber;    
     Person person;
@@ -97,6 +99,7 @@ class DebitCard : public Card{
     string name;
 }
 
+enum TransactionStatus { SUCCESS, FAILURE, BLOCKED, OHTER }
 
 class Transaction{
     int transactionId;
