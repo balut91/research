@@ -11,19 +11,19 @@ class Bank{
 class BankService{
     virutal public bool isValidUser(Card card, string pin);
     virtual public Account getCustomerDetails(Card card);
-    virtual public TransactionDetail executeTransaction(Transaction transaction, Account account);
+    virtual public TransactionStatus executeTransaction(Transaction transaction, Account account);
 }
 
 class BankA : public BankService{
      public bool isValidUser(Card card, string pin);
      public Account getCustomerDetails(Card card);
-     public TransactionDetail executeTransaction(Transaction transaction, Account account);
+     public TransactionStatus executeTransaction(Transaction transaction, Account account);
 }
 
 class BankB: public BankService{
      public bool isValidUser(Card card, string pin);
-     public Account getCustomerDetails(Card card);
-     public TransactionDetail executeTransaction(Transaction transaction, Account account);
+     public Customer getCustomerDetails(Card card);
+     public TransactionStatus executeTransaction(Transaction transaction, Account account);
 }
 
 
@@ -46,10 +46,9 @@ class ATM{
     List<Transaction> transactions;
     BankService bankService;
 
-    public bool authenticateUser(Account);
+    public bool authenticateUser(Customer);
     public List<Transaction> getAllTransactions();
-    public bool initiateTransaction(Account);
-    public BankService getBankService(CardReader);
+    public bool initiateTransaction(Card);   
 }
 
 class Keypad{
@@ -93,21 +92,17 @@ class Customer{
     string firstName;
     string lastName;
     Card card;
-    Account account;
-    BankService bankService;
+    Account account;    
     CustomerStatus status;
 }
 
 
 class Account{
     int accountNumber;       
-    double availableBalance;
-    List<Transaction> transactions;    
+    double availableBalance;    
     AccountType accountType;
    
-    public double getAvailableBalance();
-    public Transaction makeTransaction();
-    public bool addTransaction();
+    public double getAvailableBalance();       
 }
 
 class Card{
