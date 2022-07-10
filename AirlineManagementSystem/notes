@@ -1,0 +1,20 @@
+>>> Start with FlightBookingSystem class
+We need list of users and airport
+
+>> Define Users
+Users are multiple entities here.
+User can be a customer who is using the application
+User can be an employee with the airport
+User can be a Pilot/Crew
+
+>> Define Airport
+
+Each airport will have list of Flights (class Flight)
+Each Flight will have a list of schedules (class FlightSchedule)
+Each schedule will have a list of seat to book (Class FlightSeat)
+
+>> User can create an Itinerary after searching the flight
+
+An Itinerary can have multiple FlightReservations
+Each FlightReservation, have one start and end airport location, fare details,
+seats booked for cPassengers.
