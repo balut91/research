@@ -1,11 +1,29 @@
 class Bank{
     string name;
     string bankCode;
+    Address address;
     List<ATM> atm;
-    List<Account> accounts;
 
     public string getBankCode();
     public bool addATM();
+}
+
+class BankService{
+    virutal public bool isValidUser(Card card, string pin);
+    virtual public Account getCustomerDetails(Card card);
+    virtual public TransactionDetail executeTransaction(Transaction transaction, Account account);
+}
+
+class BankA : public BankService{
+     public bool isValidUser(Card card, string pin);
+     public Account getCustomerDetails(Card card);
+     public TransactionDetail executeTransaction(Transaction transaction, Account account);
+}
+
+class BankB: public BankService{
+     public bool isValidUser(Card card, string pin);
+     public Account getCustomerDetails(Card card);
+     public TransactionDetail executeTransaction(Transaction transaction, Account account);
 }
 
 
@@ -26,31 +44,40 @@ class ATM{
     CashDispenser cashDispenser;
     DepositSlot depositSlot;
     List<Transaction> transactions;
+    BankService bankService;
 
     public bool authenticateUser(Account);
     public List<Transaction> getAllTransactions();
     public bool initiateTransaction(Account);
+    public BankService getBankService(CardReader);
 }
 
 class Keypad{
-    public void getInput(String);
+    public void getInput(string);
 }
 
 class Screen{
-    public bool showMessage();    
+    public bool showMessage(string message);    
 }
 
 class CardReader{
-    public bool readCard();
+    public Card readCard();
+}
+
+enum CashType{
+    HUNDRED, FIVE_HUNDRED, TWO_THOUSAND
+}
+
+class Cash{
+    CashType cashType;
+    string serialNumber;
 }
 
 class CashDispenser{
-    int totalHunderedNotes;
-    int totalFiveHunderedNotes;
-    int totalTwoThousandNotes;
+    map<CashType, List<Cash>> cashAvailable;  
 
-    public int dispenseCash(int number);
-    public bool validate(int number);
+    public int dispenseCash(int amount);
+    public bool validate(int amount);
 }
 
 
@@ -62,30 +89,34 @@ enum AccountType { SAVINGS_ACC, CURRENT_ACC, OTHER }
 
 enum CustomerStatus { ACTIVE, BLOCKED, INACTIVE, OTHER }
 
-class Account{
-    int accountNumber;    
-    Person person;
-    Date dob;
-    double availableBalance;
-    List<Transaction> transactions;
-    List<Card> cards;
-    AccountType accountType;
-    string IFSCcode;
+class Customer{
+    string firstName;
+    string lastName;
+    Card card;
+    Account account;
+    BankService bankService;
     CustomerStatus status;
-    int pin;
+}
 
+
+class Account{
+    int accountNumber;       
+    double availableBalance;
+    List<Transaction> transactions;    
+    AccountType accountType;
+   
     public double getAvailableBalance();
     public Transaction makeTransaction();
     public bool addTransaction();
-    public bool validatePin(int);
-
 }
 
 class Card{
     int cardId;
+    string cardNumber;
     int cvv;
     Date dob;
     Date cardExpiry;
+    double withdrawlLimit;
 
     virtual public int getCVV() = 0;
     virtual public bool validateCvv() = 0;
