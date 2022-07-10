@@ -1,0 +1,17 @@
+Elevator should move up/down
+
+Buttons to control the car
+a. Inside elevator car 
+b. on floors to call elevator car
+
+Dispatcher unit algos (brain of the elevator)
+
+100 floors building and 20 elevators
+
+We have zone 1-20 = zone1 (elevator1, 2, 3, 4)
+21-40 floor (elevator 5,6,7,8) so on
+
+Door open/close
+
+Limitations on car (weight/no. of persons)
+

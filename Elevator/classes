@@ -1,0 +1,68 @@
+enum Direction { UP, DOWN, IDLE }
+
+class Button{
+    int currentFloor;    
+    Direction direction;
+}
+
+class ExternalRequest: public Button{
+    public bool addTheFloorToStop(Direction direction, int currentFloor){
+            return ElevatorManager()->getInstance()->updateExternalRequest(direction, floor);
+        }
+}
+
+class InternalRequest: public Button{
+    public bool addTheFloorToStop(int floor){
+        return ElevatorManager()->getInstance()->updateExternalRequest(floor);
+    }
+}
+
+
+class ElevatorManager{
+    const int Floors = 10;
+    List<bool> upwardFloors;
+    List<bool> downwardFloors;
+    Direction currDirection;
+    int currentFloor;
+    
+    private ElevatorManager(){   
+        currDirection = IDLE;
+        currentFloor = 0;         
+        upwardFloors.resize(Floors, false);
+        downwardFloors.resize(Floors, false);            
+    }
+
+    public ElevatorManager getInstance(){
+        if (this == null){
+            return new ElevatorManager();
+        }
+        return this;
+    }
+
+    public bool updateExternalRequest(Direction direction, int floor){        
+        return true;
+    }
+
+    public bool updateInternalRequest(int floor){
+        return true;
+    }
+
+    public startElevator() {
+        while(1){
+            if (currFloor == 0) { currDirection = UP; }
+            if (currFloor == Floors) { currDirection = DOWN; }
+            if (currDirection == UP){
+                if (upwardFloors[currFloor]){
+                    // let the people enter the elevator.
+                    if (up)
+                }
+            }
+            else if (currDirection == DOWN){
+
+            }
+        }
+    }
+}
+
+
+

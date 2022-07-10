@@ -1,0 +1,103 @@
+class User{
+    int guestId;
+    Search searchObj;
+
+    public List<Question> getQuestions(String searchString);
+}
+
+class Member: public User{
+    Account account;
+    List<Badge> badges;
+
+    public void addQuestion(Question question);
+    public void addComment(Entity entity, Comment comment); // to a question or answer
+    public void addAnswer(Question question, Answer answer);
+    public void vote(Entity entity, VoteType voteType);
+    public void addTag(Question question, Tag tag);
+    public void flag(Entity entity);
+    public List<Badge> getBadges();
+}
+
+class Account{
+    string name;
+    Address address;
+    int accountId;
+
+    string userName;
+    string password;
+    string email;
+    AccountStatus accountStatus;
+
+    int reputation;
+}
+
+class Moderator : public Member{
+    public bool closeQuestion(Question question);
+    public bool restoreQuestion(Question question);
+}
+
+
+class Admin : public Member{
+    public bool blockMember(Member);
+    public bool unblockMember(Member);
+}
+
+enum AccountStatus { BLOCKED, ACTIVE, CLOSED }
+
+enum VoteType { UPVOTE, DOWNVOTE, OTHER }
+
+class Badge{
+    string name;
+    string description;
+}
+
+class Entity{
+    int entityId;
+    Member creator;
+    Map<VoteType, int> votes;
+    Date createdAt;
+    List<Comment> comments;
+
+    public bool flagEntity(Member);
+    public bool voteEntity(VoteType voteType);
+    public bool addComment(Comment comment);
+}
+
+
+class Comment : public Entity{
+    string message;
+}
+
+class Question: public Entity{
+    List<EditHistory> editHistoryList;
+    List<Answer> answerList;
+    List<Tag> tags;
+    string title;
+    string description;
+    QuestionStatus status;
+
+    public bool addQuestion();
+    public bool addTag(Tag tag);
+}
+
+class Answer: public Entity{
+    string answer;
+    bool isAccepted;
+
+    public bool addAnswer(Question question);    
+}
+
+enum QuestionStatus { ACTIVE, CLOSED, FLAGGED, OTHER }
+
+class Tag{
+    string name;
+    string description;
+}
+
+class EditHistory{
+    int editHistoryId;
+    Member creator;
+    Date createdAt;
+    Question prevQuestion;
+    Question updatedQuestion;
+}
