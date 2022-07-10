@@ -1,0 +1,148 @@
+
+class Address{
+    string street;
+    string city;
+    string state;
+    string country;
+    string zipcode;
+}
+
+class Person{
+    string name;
+    Address address;
+    string phone;
+    string email
+}
+
+class Customer: public Person{
+    public List<Itinerary> getItineraries();
+}
+
+class Admin: public Person{
+    public bool addFlight(Flight);
+    public bool blockUser(Person);    
+}
+
+class Pilot : public Person{
+    public List<FlightSchedule> getFlights();
+}
+
+class Crew: public Person{
+    public List<FlightSchedule> getFlights();
+}
+
+class FrontDeskOfficer: public Person{
+    public bool createItinerary(Itinerary);
+}
+
+
+class Airport{
+    string name;
+    Address address;
+    string code;
+    List<Flight> flights;   
+
+    public List<Flight> getFlights();    
+}
+
+class Flight{
+    string flightId;        
+    List<FlightSchedule> FlightSchedules;        
+    
+   
+    public List<FlightSchedule> getInstances();
+    public bool addFlightSchedule(FlightSchedule);
+    public bool cancel();
+    public bool addFlightSchedule();    
+}
+
+enum FlightStatus { ACTIVE, SCHEDULED, DELAYED, DEPARTED, ARRIVED, OTHER }
+
+class FlightSchedule{  
+    Airport departure;
+    Airport arrival;       
+    DateTime departureTime;
+    DateTime arrivalTime;
+    string gate;
+    FlightStatus status;
+    List<FlightSeat> seats;
+
+    public bool cancel();
+    public bool updateStatus();
+}
+
+enum SeatType { REGULAR, EMERGENCY_EXIT, OTHER }
+enum SeatClass { ECONOMY, BUSINESS, OTHER }
+
+
+class FlightSeat{
+    int flightSeatId;   
+    SeatType type;
+    SeatClass class;
+    double fare;
+    Status status;
+    string reservationNumber;
+
+    public SeatType getSeatType();
+    public double getFare();
+    public bool updateFare(double);
+    public bool updateReservation(string reserverationNumber);
+}
+
+class Itinerary{
+    Airport startingAirport;
+    Airport finalAirport;
+    DateTime createdAt;
+    List<FlightReservation> reservations;
+    List<Passenger> passengers;
+    Payment payment;
+
+    public List<FlightReservation> getReservations();
+    public bool makeReservation();
+    public bool makePayment();
+}
+
+class Passenger{
+    string name;
+    string passportNumber;
+    DateTime dob;
+
+    public string getPassportNumber();
+}
+
+
+class FlightReservation{
+    string reservationNumber;
+    FlightSchedule FlightSchedule;
+    map<Passenger, FlighSeat> seatMap;
+    ReservationStatus status;
+    
+
+    public List<Passenger> getPassengers();
+    public double getAmount();
+}
+
+
+enum TransactionType { CREDIT_CARD, DEBIT_CARD, OTHER }
+
+class Payment{
+    int paymentId;
+    double amount;
+    PaymentStatus status;
+    TransactionType transactionType;
+
+    public bool makeTransaction();
+}
+
+
+class Notification{
+
+}
+
+class FlightBookingSystem{
+    List<Person> persons;
+    List<Airport> airports;
+    
+    public List<Flight> getFlightDetails(string cityFrom, string cityTo);
+    public Itinerary createItinerary(Person, string cityFrom, string cityEnd);
+}    
