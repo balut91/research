@@ -1,0 +1,164 @@
+class Account{
+    string userName;
+    string password;
+    AccountStatus status;
+    string name;
+    Address shippingAddress;
+    string phone;
+    string email;
+
+    List<CreditCard> creditCards;
+    List<ElectronicBankTransfer> bankAccounts;
+
+
+    public bool addProduct(Product);
+    public bool addProductReview(ProductReview);
+    public bool resetPassword();
+}
+
+class CreditCard{
+    string nameOnCard;
+    string cardNumber;
+    int code;
+    Address billingAddress;
+}
+
+class ElectronicBankTransfer{
+    string bankName;
+    string accountNumber;
+}
+
+class Customer{
+    ShoppingCart cart;    
+
+    virtual public ShoppingCart getShoppingCart() = 0;
+    virtual public bool addItemToCart(Item) = 0;
+    virtual public bool removeItemFromCart(Item) = 0;
+}
+
+class Guest : public Customer{
+    public bool registerAccount();
+}
+
+class Member: public Customer{
+    Account account;
+    
+    public OrderStatus placeOrder(ShoppingCart);
+}
+
+class Admin: public Customer{
+    Account account; 
+
+    public bool addNewProduct(Account, Product);
+    public bool removeProduct(Account, Product, int);
+}
+
+
+class ProductCategory{
+    string name;
+    string description;
+}
+
+class ProductReview{
+    int rating;
+    string review;
+    Member member;
+
+    public bool addReview(string);
+}
+
+class Product{
+    string productId;
+    string name;
+    string description;    
+    ProductCategory productCategory;
+    List<ProductReview> reviews;
+    List<Item> items;
+    int availableItemCount;
+    
+    public int getAvailableCount();
+    public bool updatePrice(double newPrice);
+}
+
+class Item{
+    string itemId;
+    int quantity;
+    double price;
+    Account seller;
+
+    public bool updateQuantity(int);
+}
+
+class ShoppingCart{
+    List<Item> items;
+
+    public bool addItem(Item);
+    public bool removeItem(Item);
+    public bool updateItemQuantity(Item item, int quantity);
+    public List<Item> getItems();
+    public bool checkout();
+}
+
+class OrderLog{
+    string orderNumber;
+    Date createdAt;
+    OrderStatus status;
+}
+
+class Order{
+    string orderNumber;
+    Orderstatus status;
+    Date orderDate;
+    List<OrderLog> orderLog;
+   
+    public bool makePayment(Payment);
+    public bool addOrderLog(OrderLog);
+    public bool sendForShipment();
+}
+
+
+class ShipmentLog{
+    string shipmentLog;
+    ShipmentStatus status;
+    Date createdAt;
+    string zipcode;
+}
+
+class Shipment{
+    string shipmentNumber;
+    Date shipmentDate;
+    Date estimatedArrival;
+    string shipmentMethod;
+    List<ShipmentLog> shipmentLog;
+
+    public bool addShipmentLog(ShipmentLog);
+}
+
+class Notification{
+    int notificationId;
+    Date createdOn;
+    string content;
+
+    public bool sendNotification(Account);
+}
+
+
+class Search{
+    virtual public List<Product> searchProductsByName(string) = 0;
+    virtual public List<Product> searchProductByCategory(string) = 0;
+}
+
+class Catalog: public Search {
+    Map<string, List<Product>> productNames;
+    Map<string, List<Product>> productCategories;
+
+    List<Product> searchByProductName(string){
+
+    }
+
+    List<Product> searchProductByCategory(string){
+
+    }
+
+}
+

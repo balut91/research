@@ -1,0 +1,68 @@
+class Person{
+    string name;
+    Address address;
+    string phone;
+    string email;
+}
+
+
+class Search{
+    public bool searchProductByName(string);    
+    public bool serachProductByCategory(string);
+}
+
+class Buyer: public Person{
+    List<Address> shippingAddress;
+    List<Card> paymentCards;
+    Search searchObj;
+    Cart cart;
+    Wishlist wishlist;
+    Payment payment;
+
+
+    public bool addShippingAddress(Address);
+    public bool addCard(Card);    
+    public bool addToCart(Item);
+    public bool removeFromCart(Item);
+    public bool addToWishlist(Item);
+    public bool removeFromWishlist(Item);
+}
+
+class Seller: public Person{
+    List<Product> products;
+
+    public bool addProduct(Product);
+    public bool removeProduct(Product);    
+}
+
+
+class Product{
+    int productId;
+    List<Item> items;
+    int totalQuantity;
+
+    public bool updateInventory(int);
+}
+
+class Item{
+    int itemId;
+    double price;
+    string seller;
+    int quantity;
+
+    public bool updatePrice(double);    
+}
+
+
+class Card{
+
+}
+
+class CreditCard: public Card{
+
+}
+
+class DebitCard: public Card{
+
+}
+
