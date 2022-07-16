@@ -1,0 +1,112 @@
+// Pub sub mechanism
+
+public interface Subjet{
+
+    public void register(Observer o);
+    public void unregister(Observer o);
+    public void notifyObserver();
+}
+
+public interface Observer{
+    public void update(double ibmPrice, double aaplPrice, double googPrice);
+}
+
+public class StockGrabber implements Subject{
+    private ArrayList<Observer> observers;
+    private double ibmPrice;
+    private double aaplPrice;
+    private double googPrice;
+
+    public StockGrabber(){
+        observers = new ArrayList<Observer>();
+    }
+
+    public void register(Observer newObserver){
+        observers.add(newObserver);
+    }
+
+    public void unregister(Observer deleteObserver){
+        int observerIndex = observers.indexOf(deleteObserver);
+        System.out.println("Observer " + (observerIndex) + " deleted");
+        observers.remove(observerIndex);
+    }
+
+    public void notifyObserver(){
+        for(Obeserver observer: observers){
+            observer.update(ibmPrice, aaplPrice, googPrice);
+        }
+    }
+
+    public setIBMPrice(double newIBMPrice){
+        this.ibmPrice = newIBMPrice;
+        notifyObserver();
+    }
+
+    public setAAPLPrice(double price){
+        this.aaplPrice = price;
+        notifyObserver();
+    }
+
+    public setGOOGPrice(double price){
+        this.googPrice = price;
+        notifyObserver();
+    }
+}
+
+
+public class StockObserver implements Observer{
+    private double ibmPrice;
+    private double aaplPrice;
+    private double googPrice;
+
+    private static int observerIdTracker = 0;
+    private int observerId;
+    private Subject stockGrabber;
+
+    public StockObserver(Subject stockGrabber){
+        this.stockGrabber = stockGrabber;
+        this.observerID = ++observerIdTracker;
+
+        System.out.Println("New observer " + this.observerID);
+        stockGrabber.register(this);
+    }
+
+    public void update(double ibmPrice, double aaplPrice, double googPrice){
+        this.ibmPrice = ibmPrice;
+        this.aaplPrice = aaplPrice;
+        this.googPrice = googPrice;
+
+        printThePrices();
+    }
+
+     public void printThePrices(){
+        System.out.println(observerID + "\nIBM: " + ibmPrice + "\nAAPL: " +
+                aaplPrice + "\nGOOG: " + googPrice + "\n");    
+    }
+}
+
+
+public class GrabStocks(){
+    public static void main(String[] args){
+        StockGrabber stockGrabber = new StockGrabber();
+        StockObserver observer1 = new StockObserver(stockGrabber);
+
+        stockGrabber.setIBMPrice(197.00);
+        stockGrabber.setAAPLPrice(677.00);
+        stockGrabber.setGOOGPrice(743.00);
+
+        StockObserver observer2 = new StockObserver(stockGrabber);
+
+        stockGrabber.setIBMPrice(197.00);
+        stockGrabber.setAAPLPrice(677.00);
+        stockGrabber.setGOOGPrice(743.00);
+
+        stockGrabber.unregister(observer1);
+
+        stockGrabber.setIBMPrice(197.00);
+        stockGrabber.setAAPLPrice(677.00);
+        stockGrabber.setGOOGPrice(743.00);
+    }
+}
+
+
