@@ -1,0 +1,41 @@
+// Use the Strategy pattern when you want to use different variants of an algorithm 
+// within an object and be able to switch from one algorithm to another during runtime.
+
+// Use the Strategy when you have a lot of similar classes that only differ 
+// in the way they execute some behavior.
+
+
+
+interface TradingAlgo is
+    method execute()
+
+class TopOfBook implements TradingAlgo is
+    method execute(symbol) is
+        return getPrice(symbol)
+
+class CrossBook implements TradingAlgo is
+    method execute(symbol) is
+        return getPrice(symbol)
+
+class Context is
+    private tradingAlgo: TradingAlgo
+
+    method setStrategy(TradingAlgo algo) is
+        this.tradingAlgo = algo
+    
+    method executeStrategy(symbol) is
+        return this.execute(symbol)
+
+class ExampleApplication is
+    method main() is
+        Context context
+        // read action from user input
+        if (action == topOfBook)
+            context.setStrategy(new TopOfBook())
+        
+        if (action == crossBook)
+            context.setStrategy(new CrossBook())
+        
+        result = context.executeStrategy("RELIANCE")
+        
+        Print result
