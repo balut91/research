@@ -1,0 +1,143 @@
+// The Visitor pattern suggests that you place the new behavior into a separate class 
+// called visitor, instead of trying to integrate it into existing classes. 
+// The original object that had to perform the behavior is now passed to one of the 
+// visitor’s methods as an argument, providing the method access to all necessary data 
+// contained within the object.
+
+
+// The visitor pattern is used when you have to perform
+// the same action on many objects of different types
+
+// Use the Visitor to clean up the business logic of auxiliary behaviors.
+
+
+
+#include <iostream>
+using namespace std;
+
+
+class Liquor;
+class Tobacco;
+class Necessity;
+
+class Visitor{
+    public:
+        virtual double visit(Liquor&) = 0;
+        virtual double visit(Tobacco& ) = 0;
+        virtual double visit(Necessity&) = 0;
+};
+
+class Visitable{
+    public:
+        virtual double accept(Visitor& visitor) = 0;
+};
+
+class Liquor: public Visitable{
+    private:
+        double price;
+    public:
+        Liquor(double newPrice){
+            price = newPrice;
+        }
+
+        double getPrice(){
+            return price;
+        }
+
+        double accept(Visitor& visitor){
+            return visitor.visit(*this);
+        }
+};
+
+class Tobacco: public Visitable{
+    private:
+        double price;
+    public:
+        Tobacco(double newPrice){
+            price = newPrice;
+        }
+
+        double getPrice(){
+            return price;
+        }
+
+        double accept(Visitor& visitor){
+            return visitor.visit(*this);
+        }
+};
+
+class Necessity: public Visitable{
+    private:
+        double price;
+    public:
+        Necessity(double newPrice){
+            price = newPrice;
+        }
+
+        double getPrice(){
+            return price;
+        }
+
+        double accept(Visitor& visitor){
+            return visitor.visit(*this);
+        }
+};
+
+
+
+
+class TaxVisitor: public Visitor{
+
+    public:
+        double visit(Liquor& liquor){
+           return (liquor.getPrice() * 0.18 + liquor.getPrice());
+        }
+
+        double visit(Tobacco& tobacco){
+           return (tobacco.getPrice() * 0.35 + tobacco.getPrice());
+        }
+
+        double visit(Necessity& necessity){
+           return (necessity.getPrice() * 0 + necessity.getPrice());
+        }
+};
+
+
+class TaxHolidayVisitor: public Visitor{
+
+    public:
+        double visit(Liquor& liquor){
+           return (liquor.getPrice() * 0.1 + liquor.getPrice());
+        }
+
+        double visit(Tobacco& tobacco){
+           return (tobacco.getPrice() * 0.23 + tobacco.getPrice());
+        }
+
+        double visit(Necessity& necessity){
+           return (necessity.getPrice() * 0 + necessity.getPrice());
+        }
+};
+
+
+
+// client
+
+int main() {
+    TaxVisitor taxVisitor;
+    TaxHolidayVisitor taxHolidayVisitor;
+
+    Liquor vodka(35.99);
+    Tobacco cigars(20.00);
+    Necessity milk(2.00);
+
+    cout <<"Taxation " << endl;
+    cout << vodka.accept(taxVisitor) << endl;
+    cout << cigars.accept(taxVisitor) << endl;
+    cout << milk.accept(taxVisitor) << endl;    
+
+    cout <<"Taxation on holiday" << endl;
+    cout << vodka.accept(taxHolidayVisitor) << endl;
+    cout << cigars.accept(taxHolidayVisitor) << endl;
+    cout << milk.accept(taxHolidayVisitor) << endl;  
+}

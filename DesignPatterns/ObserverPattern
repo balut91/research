@@ -1,4 +1,8 @@
 // Pub sub mechanism
+// Also known as: Event-Subscriber, Listener
+
+// Use the Observer pattern when changes to the state of one object may require 
+// changing other objects, and the actual set of objects is unknown beforehand or changes dynamically.
 
 public interface Subjet{
 

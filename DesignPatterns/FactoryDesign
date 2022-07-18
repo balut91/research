@@ -1,0 +1,10 @@
+public abstract class EnemyShip{
+    private string name;
+    private double speed;
+    private double directionX;
+    private dobule directionY;
+    private double amtDamage;
+
+    public String getName() { return name; }
+    public void setName(String newName) { name = newName;}
+}
