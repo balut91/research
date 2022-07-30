@@ -1,0 +1,114 @@
+class RateLimitter{
+   virtual bool grantAccesss() = 0;
+}
+
+class TokenBucket: public RateLimitter{
+    private:
+        int bucketCapacity;
+        int availableTokens;
+        int refreshRateInSeconds;
+        int refillCountPersecond;
+        Time lastRefillTime;
+    
+    public:
+        TokenBucket(int capacity, int refreshRate){
+            bucketCapacity = capacity;
+            availableTokens = capacity;
+            refreshRateInSeconds = refreshRate;
+            lastRefillTime = Time.now(); // in milliseconds
+            refillCountPersecond = capacity / refreshRateInSeconds;
+        }
+
+        bool getAvailableTokens() {
+            return availableTokens;
+        }
+
+        void refreshTokens(Time currentTime){
+            if (currentTime > lastRefillTime){
+                int elapsedTime = (currentTime - lastRefillTime) / 1000;
+                int tokensToBeAdded = (elapsedTime) * refillCountPersecond;     
+                if (tokensToBeAdded > 0){       
+                    availableTokens =  min(bucketCapacity, availableTokens + tokensToBeAdded);
+                    lastRefillTime = Time.now();
+                }
+            }
+        }
+
+        bool grantAccesss(){
+            refreshTokens(Time.now());
+            if (availableTokens > 0) {
+                availableTokens--;
+                return true;
+            }
+            return false;
+        }
+}
+
+class LeakyBucket: public RateLimitter{
+    private:
+        queue<int> q;
+        int capacity;
+    
+    public:
+        LeakyBucket(int cap){
+            capacity = cap;
+        }
+
+        bool grantAccesss(){
+            if (q.size() < capacity){
+                q.push(1);
+                return true;
+            }
+            return false;
+        }
+}
+
+class SlidingWindow: public RateLimitter{
+    private:
+        queue<int> q;
+        int timeWindowInSeconds;
+        int bucketCapacity;
+
+    public:
+        SlidingWindow(int timeWindow, int capacity){
+            timeWindowInSeconds = timeWindow;
+            bucketCapacity = capacity;
+        }
+
+        void updateQueue(){
+            Time currentTime = Time.now();
+            while(!q.empty() &&  (currentTime - q.front()) / 1000 > timeWindowInSeconds){
+                q.pop();                
+            }
+            return;
+        }
+
+        bool grantAccesss(){
+            updateQueue();
+            if (q.size() < capacity){
+                q.push(Time.now());
+                return true;
+            }
+            return false;
+        }
+}
+
+
+class UserBucket{
+    private:
+        unordered_map<userId, RateLimitter*> rateLimitter;
+        
+    public:
+        UserBucket(){}
+        bool addUserToRateLimit(int userId){
+            rateLimitUsingSW[userId] = new SlidingWindow();
+        }
+
+        void accessApplication(int userId){
+            if (rateLimitUsingSW[userId].grantAccesss()){
+                cout <<"Able to access the API" << endl;
+            }else{
+                cout <<"Unable to access the API" << endl;
+            }
+        }
+}
